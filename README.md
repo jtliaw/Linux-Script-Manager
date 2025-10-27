@@ -2,6 +2,7 @@
 
 > 🐧 一个功能强大的Linux脚本管理工具，支持中英文双语，让你轻松组织和运行系统脚本。
 
+[![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Python](https://img.shields.io/badge/Python-3.6%2B-brightgreen.svg)](https://www.python.org/)
 [![Platform](https://img.shields.io/badge/Platform-Linux-blue.svg)](https://www.linux.org/)
 [![Language](https://img.shields.io/badge/Language-Python%20%7C%20Bash-brightgreen.svg)](#)
@@ -209,6 +210,9 @@ Contributions are welcome! Here's how you can help:
 4. Push to the branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
 
+### 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ### 🙏 Acknowledgments
 
@@ -409,6 +413,10 @@ pip install pillow
 3. 提交更改 (`git commit -m 'Add AmazingFeature'`)
 4. 推送分支 (`git push origin feature/AmazingFeature`)
 5. 开启Pull Request
+
+### 📄 许可证
+
+本项目采用MIT许可证 - 详见[LICENSE](LICENSE)文件
 
 
 ### 🙏 致谢
