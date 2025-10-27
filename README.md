@@ -210,9 +210,6 @@ Contributions are welcome! Here's how you can help:
 4. Push to the branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
 
-### 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ### 🙏 Acknowledgments
 
@@ -414,9 +411,6 @@ pip install pillow
 4. 推送分支 (`git push origin feature/AmazingFeature`)
 5. 开启Pull Request
 
-### 📄 许可证
-
-本项目采用MIT许可证 - 详见[LICENSE](LICENSE)文件
 
 ### 🙏 致谢
 
