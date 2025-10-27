@@ -35,10 +35,10 @@ Linux Script Manager is a modern, user-friendly GUI application designed to help
 
 ### 📸 Screenshots
 
-```
+
 <img width="709" height="633" alt="截图_2025-10-27_13-43-20" src="https://github.com/user-attachments/assets/c459d53d-bd28-4b5d-879b-15440ebbd79c" />
 
-```
+
 
 ### 🚀 Quick Start
 
@@ -242,10 +242,8 @@ Linux脚本管理器是一个现代化的Linux脚本管理工具，提供了美�
 
 ### 📸 功能展示
 
-```
 <img width="709" height="634" alt="截图_2025-10-27_13-42-55" src="https://github.com/user-attachments/assets/8f0ed486-c250-4da1-8018-79d5fa76289d" />
 
-```
 
 ### 🚀 快速开始
 
