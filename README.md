@@ -2,7 +2,6 @@
 
 > 🐧 一个功能强大的Linux脚本管理工具，支持中英文双语，让你轻松组织和运行系统脚本。
 
-[![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Python](https://img.shields.io/badge/Python-3.6%2B-brightgreen.svg)](https://www.python.org/)
 [![Platform](https://img.shields.io/badge/Platform-Linux-blue.svg)](https://www.linux.org/)
 [![Language](https://img.shields.io/badge/Language-Python%20%7C%20Bash-brightgreen.svg)](#)
