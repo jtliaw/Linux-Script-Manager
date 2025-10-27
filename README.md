@@ -214,6 +214,10 @@ Contributions are welcome! Here's how you can help:
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
+### Development Note
+
+This project was developed with the assistance of AI tools (DeepSeek and Claude 4). The MIT License applies to the overall work that embodies the creative input of the author.
+
 ### 🙏 Acknowledgments
 
 - Built with [Python](https://www.python.org/) & [Tkinter](https://docs.python.org/3/library/tkinter.html)
@@ -418,6 +422,9 @@ pip install pillow
 
 本项目采用MIT许可证 - 详见[LICENSE](LICENSE)文件
 
+### 开发说明
+
+本项目使用AI工具（DeepSeek和Claude 4）辅助开发。MIT许可证适用于项目中体现了作者创造性劳动的整体作品。
 
 ### 🙏 致谢
 
