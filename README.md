@@ -54,10 +54,10 @@ git clone https://github.com/yourusername/linux-script-manager.git
 cd linux-script-manager
 
 # Make installation script executable
-chmod +x install.sh
+chmod +x install_linux_script_manager.sh
 
 # Run installation (requires sudo for system dependencies)
-./install.sh
+./install_linux_script_manager.sh
 
 # Start the application
 ./run.sh
@@ -164,7 +164,7 @@ pip install pillow
 **Issue: Missing dependencies**
 ```bash
 # Reinstall dependencies
-./install.sh
+./install_linux_script_manager.sh
 ```
 
 **Issue: Scripts not appearing**
@@ -256,10 +256,10 @@ git clone https://github.com/yourusername/linux-script-manager.git
 cd linux-script-manager
 
 # 赋予安装脚本执行权限
-chmod +x install.sh
+chmod +x install_linux_script_manager.sh
 
 # 运行安装（系统依赖需要sudo）
-./install.sh
+./install_linux_script_manager.sh
 
 # 启动应用
 ./run.sh
@@ -365,7 +365,7 @@ pip install pillow
 **问题：缺少依赖**
 ```bash
 # 重新安装依赖
-./install.sh
+./install_linux_script_manager.sh
 ```
 
 **问题：脚本不显示**
