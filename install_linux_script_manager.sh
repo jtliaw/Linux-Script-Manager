@@ -425,6 +425,223 @@ Path=$SCRIPT_DIR"
     log "应用菜单快捷方式: $menu_dir/$DESKTOP_FILE"
 }
 
+# 创建卸载脚本
+create_uninstall_script() {
+    local uninstall_script="$SCRIPT_DIR/uninstall.sh"
+    
+    cat > "$uninstall_script" << 'UNINSTALL_EOF'
+#!/bin/bash
+
+###############################################################################
+# Linux Script Manager - 卸载脚本
+# 清理程序文件，保护用户数据
+###############################################################################
+
+set -e
+
+# 颜色定义
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+BLUE='\033[0;34m'
+CYAN='\033[0;36m'
+MAGENTA='\033[0;35m'
+NC='\033[0m'
+
+APP_NAME="Linux Script Manager"
+DESKTOP_FILE="linux-script-manager.desktop"
+
+# 获取脚本所在目录
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+echo -e "${CYAN}=========================================${NC}"
+echo -e "${CYAN}  $APP_NAME - 卸载程序${NC}"
+echo -e "${CYAN}=========================================${NC}"
+echo
+echo -e "${YELLOW}此脚本将删除以下内容:${NC}"
+echo -e "  1. 启动器: ${RED}\$HOME/.local/bin/linux-script-manager${NC}"
+echo -e "  2. 桌面快捷方式: ${RED}\$HOME/Desktop/$DESKTOP_FILE${NC}"
+echo -e "  3. 应用菜单快捷方式: ${RED}\$HOME/.local/share/applications/$DESKTOP_FILE${NC}"
+echo
+echo -e "${MAGENTA}卸载选项:${NC}"
+echo -e "  ${GREEN}[1]${NC} 标准卸载 (保留 scripts/ 目录中的用户脚本)"
+echo -e "  ${YELLOW}[2]${NC} 完全卸载 (删除所有文件，包括用户脚本)"
+echo -e "  ${BLUE}[3]${NC} 仅删除快捷方式 (保留主程序)"
+echo -e "  ${RED}[0]${NC} 取消卸载"
+echo
+
+read -p "请选择 [0-3]: " choice
+
+case $choice in
+    0)
+        echo -e "${GREEN}卸载已取消${NC}"
+        exit 0
+        ;;
+    1)
+        UNINSTALL_MODE="standard"
+        echo -e "${GREEN}标准卸载模式${NC}"
+        ;;
+    2)
+        UNINSTALL_MODE="complete"
+        echo -e "${YELLOW}完全卸载模式${NC}"
+        ;;
+    3)
+        UNINSTALL_MODE="shortcuts"
+        echo -e "${BLUE}仅删除快捷方式${NC}"
+        ;;
+    *)
+        echo -e "${RED}无效选择，卸载已取消${NC}"
+        exit 1
+        ;;
+esac
+
+echo
+echo -e "${BLUE}开始卸载...${NC}"
+echo
+
+# 删除启动器
+if [[ -f "$HOME/.local/bin/linux-script-manager" ]]; then
+    rm -f "$HOME/.local/bin/linux-script-manager"
+    echo -e "${GREEN}✓ 已删除启动器${NC}"
+else
+    echo -e "${YELLOW}⊘ 启动器不存在${NC}"
+fi
+
+# 删除桌面快捷方式
+if [[ -f "$HOME/Desktop/$DESKTOP_FILE" ]]; then
+    rm -f "$HOME/Desktop/$DESKTOP_FILE"
+    echo -e "${GREEN}✓ 已删除桌面快捷方式${NC}"
+else
+    echo -e "${YELLOW}⊘ 桌面快捷方式不存在${NC}"
+fi
+
+# 删除应用菜单快捷方式
+if [[ -f "$HOME/.local/share/applications/$DESKTOP_FILE" ]]; then
+    rm -f "$HOME/.local/share/applications/$DESKTOP_FILE"
+    echo -e "${GREEN}✓ 已删除应用菜单快捷方式${NC}"
+else
+    echo -e "${YELLOW}⊘ 应用菜单快捷方式不存在${NC}"
+fi
+
+# 更新桌面数据库（如果可用）
+if command -v update-desktop-database &> /dev/null; then
+    update-desktop-database "$HOME/.local/share/applications" 2>/dev/null || true
+fi
+
+# 如果只删除快捷方式，到这里就结束
+if [[ "$UNINSTALL_MODE" == "shortcuts" ]]; then
+    echo
+    echo -e "${CYAN}=========================================${NC}"
+    echo -e "${CYAN}  快捷方式已删除${NC}"
+    echo -e "${CYAN}=========================================${NC}"
+    echo
+    echo -e "${GREEN}快捷方式已删除${NC}"
+    echo -e "${BLUE}主程序保留在: $SCRIPT_DIR${NC}"
+    echo -e "${BLUE}可运行 ./run.sh 启动程序${NC}"
+    echo
+    exit 0
+fi
+
+# 检查 scripts 目录是否有用户文件
+SCRIPTS_DIR="$SCRIPT_DIR/scripts"
+USER_SCRIPTS_COUNT=0
+if [[ -d "$SCRIPTS_DIR" ]]; then
+    USER_SCRIPTS_COUNT=$(find "$SCRIPTS_DIR" -type f -name "*.sh" 2>/dev/null | wc -l)
+fi
+
+echo
+
+# 标准卸载：保留用户脚本
+if [[ "$UNINSTALL_MODE" == "standard" ]]; then
+    echo -e "${YELLOW}标准卸载: 保留用户脚本${NC}"
+    
+    if [[ $USER_SCRIPTS_COUNT -gt 0 ]]; then
+        echo -e "${MAGENTA}检测到 $USER_SCRIPTS_COUNT 个用户脚本${NC}"
+        
+        # 备份脚本目录
+        BACKUP_DIR="$HOME/linux-script-manager-scripts-backup-$(date +%Y%m%d_%H%M%S)"
+        echo -e "${BLUE}备份用户脚本到: $BACKUP_DIR${NC}"
+        
+        mkdir -p "$BACKUP_DIR"
+        if [[ -d "$SCRIPTS_DIR" ]]; then
+            cp -r "$SCRIPTS_DIR"/* "$BACKUP_DIR/" 2>/dev/null || true
+            echo -e "${GREEN}✓ 用户脚本已备份${NC}"
+        fi
+    fi
+    
+    # 删除程序文件（保留备份）
+    cd "$HOME"
+    
+    if [[ -d "$SCRIPT_DIR" ]]; then
+        echo -e "${YELLOW}删除程序文件...${NC}"
+        rm -rf "$SCRIPT_DIR"
+        echo -e "${GREEN}✓ 程序文件已删除${NC}"
+    fi
+    
+    echo
+    echo -e "${CYAN}=========================================${NC}"
+    echo -e "${CYAN}  标准卸载完成${NC}"
+    echo -e "${CYAN}=========================================${NC}"
+    echo
+    echo -e "${GREEN}$APP_NAME 已卸载${NC}"
+    
+    if [[ $USER_SCRIPTS_COUNT -gt 0 ]]; then
+        echo -e "${MAGENTA}您的脚本已备份到:${NC}"
+        echo -e "${BLUE}$BACKUP_DIR${NC}"
+    fi
+    
+    echo -e "${BLUE}感谢使用！${NC}"
+    echo
+
+# 完全卸载：删除所有内容
+elif [[ "$UNINSTALL_MODE" == "complete" ]]; then
+    echo -e "${RED}完全卸载: 将删除所有文件${NC}"
+    
+    if [[ $USER_SCRIPTS_COUNT -gt 0 ]]; then
+        echo -e "${RED}警告: 检测到 $USER_SCRIPTS_COUNT 个用户脚本！${NC}"
+        echo -e "${RED}这些脚本将被永久删除！${NC}"
+        echo
+        read -p "确定要删除所有文件吗? (输入 DELETE 继续): " final_confirmation
+        
+        if [[ "$final_confirmation" != "DELETE" ]]; then
+            echo -e "${GREEN}已取消完全卸载${NC}"
+            echo -e "${BLUE}建议选择标准卸载以保留用户脚本${NC}"
+            exit 0
+        fi
+    else
+        read -p "确定要删除整个目录吗? (输入 YES 继续): " final_confirmation
+        
+        if [[ "$final_confirmation" != "YES" ]]; then
+            echo -e "${GREEN}已取消完全卸载${NC}"
+            exit 0
+        fi
+    fi
+    
+    # 删除整个目录
+    cd "$HOME"
+    if [[ -d "$SCRIPT_DIR" ]]; then
+        echo -e "${RED}删除所有文件...${NC}"
+        rm -rf "$SCRIPT_DIR"
+        echo -e "${GREEN}✓ 所有文件已删除${NC}"
+    else
+        echo -e "${YELLOW}⊘ 主程序目录不存在${NC}"
+    fi
+    
+    echo
+    echo -e "${CYAN}=========================================${NC}"
+    echo -e "${CYAN}  完全卸载完成${NC}"
+    echo -e "${CYAN}=========================================${NC}"
+    echo
+    echo -e "${GREEN}$APP_NAME 已完全卸载${NC}"
+    echo -e "${BLUE}感谢使用！${NC}"
+    echo
+fi
+UNINSTALL_EOF
+    
+    chmod +x "$uninstall_script"
+    success "卸载脚本已创建: $uninstall_script"
+}
+
 # 显示完成信息
 show_completion_info() {
     echo
@@ -435,16 +652,24 @@ show_completion_info() {
     echo -e "${GREEN}✓ 虚拟环境已配置${NC}"
     echo -e "${GREEN}✓ 依赖已安装${NC}"
     echo -e "${GREEN}✓ 启动脚本已创建${NC}"
+    echo -e "${GREEN}✓ 卸载脚本已创建${NC}"
     echo
     echo -e "${YELLOW}使用方法:${NC}"
     echo -e "  1. 双击桌面快捷方式启动"
     echo -e "  2. 或运行: ${BLUE}$SCRIPT_DIR/run.sh${NC}"
     echo -e "  3. 或在终端: ${BLUE}linux-script-manager${NC}"
     echo
+    echo -e "${YELLOW}安装位置:${NC}"
+    echo -e "  主程序: ${BLUE}$SCRIPT_DIR/${NC}"
+    echo -e "  启动器: ${BLUE}\$HOME/.local/bin/linux-script-manager${NC}"
+    echo -e "  桌面快捷方式: ${BLUE}\$HOME/Desktop/$DESKTOP_FILE${NC}"
+    echo -e "  应用菜单: ${BLUE}\$HOME/.local/share/applications/$DESKTOP_FILE${NC}"
+    echo
     echo -e "${YELLOW}目录结构:${NC}"
     echo -e "  $SCRIPT_DIR/"
     echo -e "  ├── linux_script_manager.py     # 主程序"
     echo -e "  ├── run.sh                       # 启动脚本"
+    echo -e "  ├── ${RED}uninstall.sh${NC}                  # ${RED}卸载脚本${NC}"
     echo -e "  ├── venv/                        # Python虚拟环境"
     echo -e "  ├── scripts/                     # 脚本目录"
     echo -e "  ├── tmp/                         # 临时文件目录"
@@ -455,10 +680,14 @@ show_completion_info() {
     echo -e "  2. 应用会自动扫描并显示脚本"
     echo -e "  3. 点击按钮快速运行脚本"
     echo
+    echo -e "${RED}卸载方法:${NC}"
+    echo -e "  运行: ${RED}$SCRIPT_DIR/uninstall.sh${NC}"
+    echo -e "  ${GREEN}标准卸载: 保护用户脚本${NC}"
+    echo -e "  ${YELLOW}完全卸载: 删除所有文件${NC}"
+    echo
     echo -e "${YELLOW}注意:${NC}"
-    echo -e "  • 这是本地安装，不需要系统权限"
-    echo -e "  • 所有文件保存在: $SCRIPT_DIR"
-    echo -e "  • 可直接删除目录卸载"
+    echo -e "  • 这是本地安装，仅需少量系统权限"
+    echo -e "  • 主要文件保存在: $SCRIPT_DIR"
     echo -e "  • 详细日志: $SCRIPT_DIR/install.log"
     echo
 }
@@ -541,6 +770,9 @@ main() {
     
     # 创建桌面快捷方式
     create_desktop_shortcut
+    
+    # 创建卸载脚本
+    create_uninstall_script
     
     # 显示完成信息
     show_completion_info
