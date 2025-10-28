@@ -32,6 +32,7 @@ Linux Script Manager is a modern, user-friendly GUI application designed to help
 - 📝 **Bi-lingual Script Support** - Scripts can use mixed Chinese/English descriptions
 - 🛠️ **Local Installation** - No system-wide installation needed, fully portable
 - ⚡ **Zero Configuration** - Automatic system detection and dependency installation
+- 🗑️ **Smart Uninstaller** - The installer will automatically create the uninstall.sh uninstall script to protect user data and provide backup options.
 
 ### 📸 Screenshots
 
@@ -243,6 +244,7 @@ Linux脚本管理器是一个现代化的Linux脚本管理工具，提供了美�
 - 📝 **中英文混合脚本** - 脚本说明支持中英文混合
 - 🛠️ **本地安装** - 无需系统级安装，完全便携化
 - ⚡ **零配置启动** - 自动检测系统并安装依赖
+- 🗑️ **智能卸载** - 安装程序会自动创建 uninstall.sh 卸载脚本，保护用户数据，提供备份选项
 
 ### 📸 功能展示
 
