@@ -1,5 +1,13 @@
 #!/usr/bin/env python3
 """
+Linux Script Manager
+
+Copyright (C) 2025 JTLIAW
+
+Licensed under the MIT License. See the LICENSE file for details.
+"""
+
+"""
 Linux脚本管理器 - 完整版
 支持sudo权限切换，支持任意脚本添加
 支持中英文切换
