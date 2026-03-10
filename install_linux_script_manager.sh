@@ -77,7 +77,7 @@ detect_distro() {
 # 检查包管理器
 setup_package_manager() {
     case $DISTRO in
-        ubuntu|debian|linuxmint|pop)
+        ubuntu|debian|linuxmint|pop|zorin)
             PKG_MANAGER="apt"
             PKG_UPDATE="apt update"
             PKG_INSTALL="apt install -y"
@@ -700,7 +700,7 @@ cleanup_old_logs() {
 main() {
     echo -e "${CYAN}=========================================${NC}"
     echo -e "${CYAN}  $APP_NAME - 本地安装程序${NC}"
-    echo -e "${CYAN}  支持: Ubuntu/Debian, CentOS, Fedora, Arch, openSUSE${NC}"
+    echo -e "${CYAN}  支持: Ubuntu/Debian/Zorin, CentOS, Fedora, Arch, openSUSE${NC}"
     echo -e "${CYAN}  无需系统权限，本地安装模式${NC}"
     echo -e "${CYAN}=========================================${NC}"
     echo
