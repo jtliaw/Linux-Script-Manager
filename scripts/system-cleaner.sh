@@ -62,7 +62,7 @@ detect_package_manager() {
     local distro=$(detect_distro)
     
     case "$distro" in
-        ubuntu|debian|linuxmint|elementary)
+        ubuntu|debian|linuxmint|elementary|zorin)
             echo "apt"
             ;;
         fedora|rhel|centos|rocky|almalinux)
