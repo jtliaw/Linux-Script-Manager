@@ -405,7 +405,7 @@ EOF
     mkdir -p "$HOME/Desktop" "$menu_dir"
     
     local desktop_content="[Desktop Entry]
-Version=1.0
+Version=1.4
 Type=Application
 Name=$APP_NAME
 Comment=Quick access and manage Linux scripts
