@@ -345,7 +345,7 @@ clean_system() {
     
     # 1. 清理系统日志
     print_step "清理系统日志..."
-    journalctl --vacuum=7d
+    journalctl --vacuum-time=7d
     print_success "已清理7天以前的日志"
     
     # 2. 清理临时文件
