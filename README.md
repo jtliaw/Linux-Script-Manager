@@ -19,7 +19,8 @@ Linux Script Manager 是一个 Linux 图形化脚本管理器。它的核心理�
 
 ## 📸 界面展示
 
-<img width="709" height="633" alt="Linux Script Manager 界面" src="https://github.com/user-attachments/assets/c459d53d-bd28-4b5d-879b-15440ebbd79c" />
+<img width="1073" height="656" alt="截图 2026-05-21 10-19-51" src="https://github.com/user-attachments/assets/c34c6ee9-6f91-4f58-a735-d77811d6eeee" />
+
 
 ---
 
