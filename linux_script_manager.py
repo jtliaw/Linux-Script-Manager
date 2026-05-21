@@ -650,7 +650,7 @@ echo "Execution completed / 执行完成！"
         terminal = self.get_terminal()
         if terminal:
             try:
-                subprocess.Popen([terminal])
+                subprocess.Popen([terminal], cwd=os.path.abspath(self.script_dir))
             except Exception as e:
                 messagebox.showerror(self.i18n.t('error'), f"{self.i18n.t('terminal_open_error')}: {e}")
         else:
