@@ -1,6 +1,6 @@
 #!/bin/bash
 # printer-manager-launcher.sh
-# 描述: 智能打印机助手的外壳启动与环境安装管理器 (组件套壳完全体)
+# DESCRIPTION: 智能打印机助手的外壳启动与环境安装管理器 (组件套壳完全体)
 
 set -e
 
